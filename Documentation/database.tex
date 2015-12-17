@@ -1,0 +1,104 @@
+\newpage
+\section{Base de données}
+
+\subsection{Les éléments}
+\paragraph{} Tout les éléments seront décrites comme ceci :
+\begin{itemize}
+	\item nom
+	\item Drawable
+\end{itemize}
+
+\subsection{Les Personnages}
+
+\subsubsection{Les classes}
+
+\paragraph{}
+\begin{itemize}
+	\item Ailé
+	\item Type (humain, démons, etc.)
+	\item Sous Type (archer, épéïste, etc.)
+\end{itemize}
+
+\subsubsection{Les unités}
+\paragraph{} Chaque unité est décrite comme ceci :
+\begin{itemize}
+	\item sa classe
+	\item son coût de production
+	\item sa capacité d'occupation
+	\item son nombre de cases
+	\item vie
+	\item mana
+	\item capacité de déplacement
+	\item porter du brouillard de guerre
+	\item indicateur pour calcul du nombre d'action
+	\item défense
+	\item défense magique
+	\item attaque
+	\item attaque magique
+	\item indicateur du nombre d'attaque
+	\item sa liste de sorts débloquable après un certain niveau
+\end{itemize}
+
+\subsection{Les obstacles}
+
+\paragraph{} Chaque obstacle est décrite comme ceci :
+\begin{itemize}
+	\item possibilité de destruction
+	\item possibilité de déplacement
+\end{itemize}
+
+\subsection{Environnement}
+
+\paragraph{} Chaque partie de l'environnement est décrite comme ceci :
+\begin{itemize}
+	\item Coût en nombre de cases pour les déplacements / brouillards de guerre.
+	\item Affecte les unités ailé.
+	\item Perte de précision.
+	\item Augmentation de la porter pour les attaques à distances.
+	\item Système de barrière.
+\end{itemize}
+
+\paragraph{} En plus de cela, il y aura le brouillard de guerre à prendre en compte.
+
+\subsection{Les infrastructures}
+
+\paragraph{} Les infrastructures seront décrite comme ceci :
+\begin{itemize}
+	\item Coût en création
+	\item Argent par tour
+	\item Vie
+\end{itemize}
+
+\subsubsection{Recrutement}
+
+\paragraph{} Les infrastructures de recrutement seront en plus décrites comme ceci :
+\begin{itemize}
+	\item Listes d'unités disponible.
+\end{itemize}
+
+\subsubsection{Occupable}
+\paragraph{} Les infrastructures occupable seront en plus décrites comme ceci :
+\begin{itemize}
+	\item Son coût en tour d'occupation.
+	\item sa case où le joueur devra se mettre pour l'occuper.
+\end{itemize}
+
+\subsubsection{De combats}
+\paragraph{} Les infrastructures de combats seront en plus décrites comme ceci :
+\begin{itemize}
+	\item Capacité de toucher les unités ailé.
+	\item Attaque.
+	\item Pondération par type d'unité qu'on peut attaquer.
+	\item Coût de déplacement (-1 pour non déplaçable)
+\end{itemize}
+
+\subsubsection{De Soins}
+\begin{itemize}
+	\item PV de régénérer
+	\item MP de régénérer
+\end{itemize}
+
+\subsubsection{De magie}
+\begin{itemize}
+	\item Bonus en pourcentage des attaques magiques de unités
+\end{itemize}
