@@ -55,14 +55,14 @@
 		\end{tikzpicture}
 	\end{center}
 
-\subsection{Armes humaines}
+\subsection{Humains}
 	\begin{center}
 		\begin{tikzpicture}[->=stealth]
 			\node (Co) at (0:3cm) [] {Epée};
-			\node (Ai) at (51:3cm) [] {Arc} edge [<-] (Co);
+			\node (Ai) at (51:3cm) [] {Sorts} edge [<-] (Co);
 			\node (Fa) at (102:3cm) [] {Arts martiaux} edge [<-] (Ai);
-			\node (Se) at (155:3cm) [] {Fouet} edge [<-] (Fa);
-			\node (Hi) at (207:3cm) [] {Arbalète} edge [<-] (Se);
+			\node (Se) at (155:3cm) [] {Arc} edge [<-] (Fa);
+			\node (Hi) at (207:3cm) [] {Fouet} edge [<-] (Se);
 			\node (Ch) at (258:3cm) [] {Lance} edge [<-] (Hi);
 			\node (Va) at (309:3cm) [] {Marteau} edge [<-] (Ch);
 			\draw[->] (Va) -- (Co);
@@ -127,7 +127,7 @@
 		\end{tikzpicture}
 	\end{center}
 
-\subsection{Sorts élémentaires}
+\subsection{Éléments}
 	\begin{center}
 		\begin{tikzpicture}[->=stealth]
 			\node (Co) at (0:3cm) []   {Terre};
