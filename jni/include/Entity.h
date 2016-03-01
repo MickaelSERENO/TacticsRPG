@@ -6,7 +6,7 @@ class Entity
 	public:
 		Entity();
 	private:
-		
+		bool m_canPass;		
 };
 
 #endif

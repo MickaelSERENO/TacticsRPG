@@ -1,12 +1,15 @@
 #ifndef  UNIT_INC
 #define  UNIT_INC
 
-#include "Graphics/Drawable.h"
+#include "Updatable.h"
 #include "Graphics/Vector2.h"
 #include "Path.h"
 #include "Direction.h"
+#include "Entity.h"
 
-class Unit : public Drawable
+#define N_DIRECTION 4
+
+class Unit : public Updatable, Entity
 {
 	public:
 		Unit(Updatable* parent, Animation** animations, uint32_t casePos, uint32_t playerID);

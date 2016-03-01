@@ -1,7 +1,14 @@
 #include "Units/Unit.h"
 
-Unit::Unit(Updatable* parent, Animation* animation, const Vector2i& casePos, uint32_t playerID) : m_casePos(casePos), m_playerID(playerID), m_anim(animation)
-{}
+Unit::Unit(Updatable* parent, Animation** animation, const Vector2i& casePos, uint32_t playerID) : Updatable(parent), Entity(), m_casePos(casePos), m_playerID(playerID), m_anim(animation)
+{
+	for(uint32_t i=0; i < N_DIRECTION; i++)
+	{
+		addChild(animation[i]);
+		animation[i]->setCanDraw(false);
+		animation[i]->setCanUpdate(false);
+	}
+}
 
 void Unit::onUpdate(Render& render)
 {
@@ -9,11 +16,6 @@ void Unit::onUpdate(Render& render)
 	{
 		
 	}
-}
-
-void Unit::onDraw(Render& render, const glm::mat4& mvp)
-{
-	m_anim->onDraw(render, mvp);
 }
 
 void Unit::moveToTarget(Path* pathFinding)
