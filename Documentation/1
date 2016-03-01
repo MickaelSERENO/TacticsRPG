@@ -1,0 +1,5 @@
+
+(evince:2830): Gtk-WARNING **: Theme parsing error: gtk-widgets.css:2:19: Theming engine 'adwaita' not found
+
+(evince:2830): Gtk-WARNING **: Theme directory  of theme Azenis has no size field
+
