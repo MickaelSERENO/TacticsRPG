@@ -10,7 +10,7 @@ import android.util.Log;
 
 public class Main extends Activity
 {
-	private ZombieRenderer m_renderer;
+	private TacticsRenderer m_renderer;
 
 	public Main()
 	{
