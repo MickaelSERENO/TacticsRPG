@@ -3,22 +3,20 @@
 Player::Player(Updatable* parent, Map* currentMap)
 {}
 
+void Player::addUnit(Unit* unit, const Vector2i& pos, Direction defaultDirection)
+{
+	UnitEntity* entity = new UnitEntity();
+	entity->unit       = unit;
+	entity->treePath   = new TreePath(unit->getCost());
+	entity->treePath->update(*m_currentMap, pos, Vector2i(unitCost, unitCost));
+	m_units.push_back(entity);
+}
+
 void Player::moveUnitToTarget(uint32_t id, const Vector2i& relativeTarget)
 {
 	UnitEntity* unitEntity = m_units[id];
 	uint32_t unitCost = unitEntity->unit->getPath();
 
-	//Delete the all path finding tree bound to this Unit
-	for(uint32_t i=-unitCost; i <= unitCost; i++)
-		free(unitEntity->path[i]);
-	free(unitEntity->path);
-	unitEntity->path = NULL;
-
-	//Create the new pathFinding tree
-	Path** newPath = (Path**)malloc(sizeof(Path*)*unitCost);
-	for(uint32_t i=-unitCost; i <= unitCost; i++)
-		newPath[i] = (Path*)malloc(sizeof(Path)*unitCost);
-	
-	determinePathFinding(*m_currentMap, unitEntity->unit->getCase(), newPath, unitCost);
-	unitEntity->path = newPath;
+	//Update the TreePath
+	unitEntity->treePath->update(*m_currentMap, unitEntity->unit->getCase(), Vector2i(unitCost, unitCost));
 }

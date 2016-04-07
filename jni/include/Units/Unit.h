@@ -12,19 +12,20 @@
 class Unit : public Updatable, Entity
 {
 	public:
-		Unit(Updatable* parent, Animation** animations, uint32_t casePos, uint32_t playerID);
+		Unit(Updatable* parent, Animation** animations, uint32_t casePos, uint32_t playerID, uint32_t cost);
 		void onUpdate(Render& render);
 		void onDraw(Render& render, const glm::mat4& mvp=glm::mat4(1.0f));
-		void moveToTarget(Path** pathFinding);
-		const Vector2i& getCasePos();
-		uint32_t        getCost();
-		bool            isMoving();
+		void moveToTarget(TreePath* treePath);
+		const Vector2i& getCasePos() const;
+		uint32_t        getCost() const;
+		bool            isMoving() const;
+		uint32_t        getPlayerID() const;
 	protected:
 		Vector2i    m_casePos;
 		uint32_t    m_playerID;
 		uint32_t    m_cost;
-		Path*       m_pathFinding;
-		uint32_t    m_currentCase;
+		TreePath*   m_treePath;
+		uint32_t    m_targetCase;
 		Animation** m_anim;
 		bool        m_isMoving;
 };

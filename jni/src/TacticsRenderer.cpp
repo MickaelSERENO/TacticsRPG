@@ -21,7 +21,7 @@ void TacticsRenderer::accelerometerEvent(float x, float y, float z)
 void TacticsRenderer::init()
 {
 	Renderer::init();
-	File file(JniMadeOf::jenv, JniMadeOf::context, "map.xml", "r");
+	File file(JniMadeOf::jenv, JniMadeOf::context, "Resources/Tile.xml", "r");
 	tmap = new TMap(this, file);
 }
 

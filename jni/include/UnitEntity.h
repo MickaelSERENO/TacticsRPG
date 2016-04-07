@@ -6,8 +6,8 @@
 
 struct UnitEntity
 {
-	Unit* unit;
-	Path** path;
+	Unit*     unit;
+	TreePath* treePath;
 };
 
 #endif
