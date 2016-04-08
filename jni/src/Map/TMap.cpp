@@ -5,6 +5,7 @@ TMap::TMap(Updatable* parent, File& file) : Map(parent, file), m_mtl()
 
 createStaticTilePtr TMap::getStaticTileFunction(const char* name, const char* type) const
 {
+	LOG_ERROR("GET STATIC TILE FUNCTION");
 	return staticTileFactory<DefaultTile>;
 }
 

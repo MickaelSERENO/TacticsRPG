@@ -44,6 +44,8 @@ public class Main extends Activity
 
 	static
 	{
+		System.loadLibrary("expat");
+		System.loadLibrary("engine");
 		System.loadLibrary("tactics");
 	}
 }
