@@ -1,19 +1,42 @@
 LOCAL_PATH := $(call my-dir)
 LIBENGINE  := /home/mickael/Programmation/Java/Android/AndroidEngine/libs/$(TARGET_ARCH_ABI)/libengine.so
+LIBEXPAT   := /home/mickael/Programmation/Java/Android/expat-android/libs/$(TARGET_ARCH_ABI)/libexpat.so
 
 include $(CLEAR_VARS)
-LOCAL_C_INCLUDES += $(NDK_APP_PROJECT_PATH)/jni/INCLUDE
+
+LOCAL_MODULE := engine-prebuilt
+LOCAL_SRC_FILES := $(LIBENGINE)
+LOCAL_EXPORT_LDLIBS := -L$(LOCAL_PATH)/libs/$(TARGET_ARCH_ABI)/
+LOCAL_EXPORT_LDLIBS += -l$(LIBENGINE)
+
+include $(PREBUILT_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := expat-prebuilt
+LOCAL_SRC_FILES := $(LIBEXPAT)
+LOCAL_EXPORT_LDLIBS := -L$(LOCAL_PATH)/libs/$(TARGET_ARCH_ABI)/
+LOCAL_EXPORT_LDLIBS += -l$(LIBEXPAT)
+
+include $(PREBUILT_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
+
+LOCAL_C_INCLUDES += $(NDK_APP_PROJECT_PATH)/jni/include
 LOCAL_C_INCLUDES += $(NDK_APP_PROJECT_PATH)/../AndroidEngine/jni/Graphics/
 LOCAL_C_INCLUDES += $(NDK_APP_PROJECT_PATH)/../AndroidEngine/jni
-LOCAL_SHARED_LIBRARIES := engine-prebuilt
 LOCAL_MODULE := tactics
 LOCAL_CFLAGS := -Wall --std=c++11 -g
+LOCAL_SHARED_LIBRARIES := engine-prebuilt expat-prebuilt
+
+
 APP_OPTIM := debug
 
 LOCAL_SRC_FILES := src/TacticsRenderer.cpp src/nativeTacticsRenderer.cpp
-LOCAL_SRC_FILES += src/Map/Map.cpp
+LOCAL_SRC_FILES += src/Map/TMap.cpp
 
-LOCAL_LDLIBS    += -llog -landroid -lEGL -lGLESv2 -ljnigraphics -latomic -l${LIBENGINE} -lexpat
+LOCAL_LDLIBS    += -llog -landroid -lEGL -lGLESv2 -ljnigraphics -latomic
+#-l${LIBENGINE} -l$(LIBEXPAT)
 
 include $(BUILD_SHARED_LIBRARY)
 
