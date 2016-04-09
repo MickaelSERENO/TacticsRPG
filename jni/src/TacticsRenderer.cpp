@@ -23,5 +23,5 @@ void TacticsRenderer::init()
 	Renderer::init();
 	File file(JniMadeOf::jenv, JniMadeOf::context, "Resources/Tile.xml", "r");
 	tmap = new TMap(this, file);
+	tmap->scale(glm::vec3(0.01, 0.01, 0.01));
 }
-
