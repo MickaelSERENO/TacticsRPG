@@ -22,7 +22,6 @@ LOCAL_MODULE := tactics
 LOCAL_CFLAGS := -Wall --std=c++11 -g
 LOCAL_SHARED_LIBRARIES := engine-prebuilt expat-prebuilt
 
-
 APP_OPTIM := debug
 
 LOCAL_SRC_FILES := src/TacticsRenderer.cpp src/nativeTacticsRenderer.cpp

@@ -1,7 +1,9 @@
 #include "Map/TMap.h"
 
-TMap::TMap(Updatable* parent, File& file) : Map(parent, file), m_mtl()
-{}
+TMap::TMap(Updatable* parent, File& file) : Map(parent), m_mtl()
+{
+	parse(file);
+}
 
 createStaticTilePtr TMap::getStaticTileFunction(const char* name, const char* type) const
 {
@@ -9,8 +11,9 @@ createStaticTilePtr TMap::getStaticTileFunction(const char* name, const char* ty
 	return staticTileFactory<DefaultTile>;
 }
 
-const Material* TMap::getStaticTileMaterial(const char* name, const char* type) const
+Material* TMap::getStaticTileMaterial(const char* name, const char* type)
 {
+	LOG_ERROR("GET MATERIAL !");
 	return &m_mtl;
 }
 
@@ -19,7 +22,7 @@ createDynamicAnimPtr TMap::getDynamicAnimFunction(const char* name) const
 	return NULL;
 }
 
-const Material* TMap::getDynamicAnimMaterial(const char* name, const char* type) const
+Material* TMap::getDynamicAnimMaterial(const char* name, const char* type)
 {
 	return NULL;
 }
@@ -29,7 +32,7 @@ createStaticAnimPtr TMap::getStaticAnimFunction(const char* name) const
 	return NULL;
 }
 
-const Material* TMap::getStaticAnimMaterial(const char* name, const char* type) const
+Material* TMap::getStaticAnimMaterial(const char* name, const char* type)
 {
 	return &m_mtl;
 }

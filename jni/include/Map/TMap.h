@@ -10,14 +10,13 @@ class TMap : public Map
 {
 	public:
 		TMap(Updatable* parent, File& file);
-
-		virtual createStaticTilePtr  getStaticTileFunction(const char* name, const char* type)const; 
-		virtual const Material*            getStaticTileMaterial(const char* name, const char* type)const;
+		virtual createStaticTilePtr getStaticTileFunction(const char* name, const char* type)const; 
+		virtual Material*           getStaticTileMaterial(const char* name, const char* type);
 		virtual createDynamicAnimPtr getDynamicAnimFunction(const char* name) const; 
-		virtual const Material*            getDynamicAnimMaterial(const char* name, const char* type) const;
-		virtual createStaticAnimPtr  getStaticAnimFunction(const char* name) const; 
-		virtual const Material*            getStaticAnimMaterial(const char* name, const char* type) const;
-		virtual createObjectPtr      getObjectFunction(const char* name, const char* type) const;
+		virtual Material*           getDynamicAnimMaterial(const char* name, const char* type);
+		virtual createStaticAnimPtr getStaticAnimFunction(const char* name) const; 
+		virtual Material*           getStaticAnimMaterial(const char* name, const char* type);
+		virtual createObjectPtr getObjectFunction(const char* name, const char* type) const;
 	private:
 		TextureMaterial m_mtl;
 };
