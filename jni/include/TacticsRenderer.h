@@ -3,6 +3,8 @@
 
 #include "Renderer.h"
 #include "Map/TMap.h"
+#include "Graphics/Sprite.h"
+#include "Graphics/Materials/TextureMaterial.h"
 
 class TacticsRenderer : public Renderer
 {
@@ -14,6 +16,11 @@ class TacticsRenderer : public Renderer
 		void init();
 	private:
 		TMap* tmap;
+		Sprite* m_skel;
+		Sprite* m_zomb;
+		Texture* m_skelTexture;
+		Texture* m_zombTexture;
+		TextureMaterial* m_mtl;
 };
 
 #endif

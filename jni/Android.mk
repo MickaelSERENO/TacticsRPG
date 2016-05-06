@@ -1,6 +1,6 @@
 LOCAL_PATH := $(call my-dir)
-LIBENGINE  := /home/mickael/Programmation/Java/Android/AndroidEngine/libs/$(TARGET_ARCH_ABI)/libengine.so
-LIBEXPAT   := /home/mickael/Programmation/Java/Android/expat-android/libs/$(TARGET_ARCH_ABI)/libexpat.so
+LIBENGINE  := /home/mickael/Programmation/Android/AndroidEngine/libs/$(TARGET_ARCH_ABI)/libengine.so
+LIBEXPAT   := /home/mickael/Programmation/Android/expat-android/libs/$(TARGET_ARCH_ABI)/libexpat.so
 
 include $(CLEAR_VARS)
 
