@@ -5,8 +5,9 @@ class Entity
 {
 	public:
 		Entity();
+		int getCost() const;
 	private:
-		bool m_canPass;		
+		int m_cost;
 };
 
 #endif
