@@ -16,6 +16,8 @@ class TreePath
 	public:
 		TreePath(uint32_t cost);
 		~TreePath();
+
+		//Update the TreePath. Create and init the m_path correctly
 		void update(const Map& map, const Vector2i& elemPos, const Vector2i& relPos, const Vector2i& beforePos = Vector2i(), uint32_t currentCost=0);
 		uint32_t getCost() const;
 	private:

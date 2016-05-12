@@ -1,7 +1,8 @@
 #include "Units/Unit.h"
 
-Unit::Unit(Updatable* parent, const Vector2i& casePos, uint32_t playerID, uint32_t cost) : Updatable(parent), Entity(), m_casePos(casePos), m_playerID(playerID), m_movableCost(cost), m_treePath(NULL), m_staticAnim(NULL), m_moveAnim(NULL), m_currentAction(ANIM_MOVING)
+Unit::Unit(Updatable* parent, const Vector2i& casePos, uint32_t playerID, uint32_t cost) : UnitEntity(), Tile(parent, NULL, Rectangle3f(), (void*)this), m_casePos(casePos), m_playerID(playerID), m_movableCost(cost), m_treePath(NULL), m_staticAnim(NULL), m_moveAnim(NULL), m_currentAction(ANIM_MOVING)
 {
+	m_cost = -1;
 }
 
 void Unit::loadMoveAnim(Animation** anim)

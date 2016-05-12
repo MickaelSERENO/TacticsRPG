@@ -1,12 +1,12 @@
 #ifndef  ENTITY_INC
 #define  ENTITY_INC
 
-class Entity
+class TileEntity
 {
 	public:
-		Entity();
+		TileEntity();
 		int getCost() const;
-	private:
+	protected:
 		int m_cost;
 };
 
