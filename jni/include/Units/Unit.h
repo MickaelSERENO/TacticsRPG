@@ -5,15 +5,15 @@
 #include "Graphics/Vector2.h"
 #include "Path.h"
 #include "Direction.h"
-#include "TileInfo/UnitEntity.h"
 #include "Tile.h"
+#include "TileInfo/TileEntity.h"
 
 #define N_DIRECTION  4
 
 #define ANIM_NOTHING 0
 #define ANIM_MOVING  1
 
-class Unit : public UnitEntity, Tile
+class Unit : public TileInfo, Tile
 {
 	public:
 		Unit(Updatable* parent, uint32_t casePos, uint32_t playerID, uint32_t cost);
@@ -30,7 +30,7 @@ class Unit : public UnitEntity, Tile
 
 		/** \brief Attack an unity enemy
 		 * \param The enemy to attack*/
-		void attack(Unit& enemy);
+		void attack(Unit& enemy, AttackType type);
 
 		/** \brief Move the unit to a target
 		 * \param treePath the TreePath which represent to world around the unit.*/
@@ -54,13 +54,16 @@ class Unit : public UnitEntity, Tile
 	protected:
 		Vector2i    m_casePos; /* <!Player position in the map */
 		uint32_t    m_playerID;/* <!The player ID. The ID match to the player, identity, not the Unit identity */
-		uint32_t    m_movableCost; /* <!How many cases I can cross (weighted by the Tile cost) */
 		TreePath*   m_treePath; /* <!The current TreePath for the motion */
 		Vector2i    m_targetCase; /* <!The case the unit is going */
 		Animation*  m_staticAnim[4]; /* <!The animation while the player is static (4 Animation because 4 directions) */
 		Animation*  m_moveAnim[4];/* <!The animation while the player is moving (4 Animation because 4 directions) */
 		uint32_t    m_currentAction; /* <!The current animation playing*/
 		bool        m_endAnimation; /* <!Is the current animation ended ? */
+
+		//Unit attack
+		std::vector<AttackType> m_unlockAttack; /* <!Attack actually unlocked */
+		std::map<uint32_t, std::vector<AttackType>> m_toUnlockAttack; /* <!Attack to unlock at the level uint32_t */
 };
 
 #endif
