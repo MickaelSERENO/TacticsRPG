@@ -1,11 +1,6 @@
 LOCAL_PATH := $(call my-dir)
-<<<<<<< HEAD
-LIBENGINE  := /home/mickael/Programmation/Java/Android/Engine/libs/$(TARGET_ARCH_ABI)/libengine.so
-LIBEXPAT   := /opt/android-ndk/platforms/android-19/arch-arm/usr/lib/libexpat.so
-=======
 LIBENGINE  := /home/mickael/Programmation/Android/AndroidEngine/libs/$(TARGET_ARCH_ABI)/libengine.so
 LIBEXPAT   := /home/mickael/Programmation/Android/expat-android/libs/$(TARGET_ARCH_ABI)/libexpat.so
->>>>>>> fbfa4f2a201fdf1a929a5335e2c7fd5aac4216a2
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := engine-prebuilt
@@ -19,8 +14,8 @@ include $(PREBUILT_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_C_INCLUDES += $(NDK_APP_PROJECT_PATH)/jni/include
-LOCAL_C_INCLUDES += $(NDK_APP_PROJECT_PATH)/../Engine/jni/Graphics/
-LOCAL_C_INCLUDES += $(NDK_APP_PROJECT_PATH)/../Engine/jni
+LOCAL_C_INCLUDES += $(NDK_APP_PROJECT_PATH)/../AndroidEngine/jni/Graphics/
+LOCAL_C_INCLUDES += $(NDK_APP_PROJECT_PATH)/../AndroidEngine/jni
 LOCAL_SHARED_LIBRARIES := engine-prebuilt expat-prebuilt
 
 LOCAL_MODULE := tactics

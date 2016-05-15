@@ -6,7 +6,8 @@ JNIEXPORT jlong JNICALL Java_com_gaulois94_TacticsRenderer_createTacticsRenderer
 	JniMadeOf::jenv = jenv;
 	TacticsRenderer* renderer = new TacticsRenderer((Updatable*)parent);
 	ANativeWindow* window = ANativeWindow_fromSurface(jenv, surface);
-	renderer->initializeContext(window);
+	renderer->initializeContext();
+	renderer->initializeSurface(window);
 
 	return (jlong)renderer;
 }
