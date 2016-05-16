@@ -16,6 +16,7 @@ include $(CLEAR_VARS)
 LOCAL_C_INCLUDES += $(NDK_APP_PROJECT_PATH)/jni/include
 LOCAL_C_INCLUDES += $(NDK_APP_PROJECT_PATH)/../AndroidEngine/jni/Graphics/
 LOCAL_C_INCLUDES += $(NDK_APP_PROJECT_PATH)/../AndroidEngine/jni
+LOCAL_C_INCLUDES += $(NDK_APP_PROJECT_PATH)/../expat-android/jni/lib/
 LOCAL_SHARED_LIBRARIES := engine-prebuilt expat-prebuilt
 
 LOCAL_MODULE := tactics

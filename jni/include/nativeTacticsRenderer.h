@@ -8,7 +8,7 @@
 
 extern "C"
 {
-	JNIEXPORT jlong JNICALL Java_com_gaulois94_TacticsRenderer_createTacticsRenderer(JNIEnv* jenv, jclass jcls, jlong parent, jobject surface);
+	JNIEXPORT jlong JNICALL Java_com_gaulois94_TacticsRenderer_createTacticsRenderer(JNIEnv* jenv, jclass jcls, jlong parent);
 };
 
 #endif
