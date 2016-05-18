@@ -32,22 +32,11 @@ void TacticsRenderer::accelerometerEvent(float x, float y, float z)
 void TacticsRenderer::init()
 {
 	Renderer::init();
-/*
+
 	File file(JniMadeOf::jenv, JniMadeOf::context, "Resources/Tile.xml", "r");
 	m_mtl = new TextureMaterial();
 	tmap = new TMap(this, file);
 	tmap->setUpdateFocus(false);
 	tmap->scale(glm::vec3(0.01, 0.01, 0.01)*0.5f);
 	tmap->move(glm::vec3(-1.0, -1.0, 0.0));
-	tmap->rotate(-30*3.14/180, glm::vec3(0.0, 0.0, 1.0));
-	m_skelTexture = Texture::loadAndroidFile("skeleton.png");
-	m_zombTexture = Texture::loadAndroidFile("Zombie.png");
-	m_skel = new Sprite(this, m_mtl, m_skelTexture);
-	m_skel->scale(glm::vec3(0.2, 0.2, 1));
-	m_skel->setPosition(glm::vec3(0.1, 0.1, 0.0));
-
-	m_zomb = new Sprite(this, m_mtl, m_zombTexture);
-	m_zomb->scale(glm::vec3(0.2, 0.2, 1));
-	m_zomb->setPosition(glm::vec3(0.1, 0.3, 0.0));
-*/
 }

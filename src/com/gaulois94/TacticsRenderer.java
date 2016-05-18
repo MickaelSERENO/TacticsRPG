@@ -13,10 +13,10 @@ public class TacticsRenderer extends Renderer
 	}
 
 	@Override
-	public long createPtr(long parent, Surface surface)
+	public long createPtr(long parent)
 	{
-		return createTacticsRenderer(parent, surface);
+		return createTacticsRenderer(parent);
 	}
 
-	static private native long createTacticsRenderer(long parent, Surface surface);
+	static private native long createTacticsRenderer(long parent);
 }
