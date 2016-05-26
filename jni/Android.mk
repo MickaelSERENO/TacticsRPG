@@ -26,6 +26,7 @@ APP_OPTIM := debug
 
 LOCAL_SRC_FILES := src/TacticsRenderer.cpp src/nativeTacticsRenderer.cpp
 LOCAL_SRC_FILES += src/Map/TMap.cpp
+LOCAL_SRC_FILES += src/nativeFileManager.cpp src/UnitStats.cpp
 
 LOCAL_LDLIBS    += -llog -landroid -lEGL -lGLESv2 -ljnigraphics -latomic
 

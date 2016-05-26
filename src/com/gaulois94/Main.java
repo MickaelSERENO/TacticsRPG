@@ -1,6 +1,7 @@
 package com.gaulois94;
 
 import com.gaulois94.TacticsRenderer;
+import com.gaulois94.FileManager;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,28 +19,29 @@ public class Main extends Activity
 
 	public void onCreate(Bundle savedInstanceState)
 	{
-		m_renderer = new TacticsRenderer(this);
-		setContentView(m_renderer.getSurface());
+		FileManager.copyOnDevice(this);
+//		m_renderer = new TacticsRenderer(this);
+//		setContentView(m_renderer.getSurface());
 		super.onCreate(savedInstanceState);
 	}
 
 	public void onResume()
 	{
 		super.onResume();
-		setContentView(m_renderer.getSurface());
-		m_renderer.resume();
+//		setContentView(m_renderer.getSurface());
+//		m_renderer.resume();
 	}
 
 	public void onPause()
 	{
 		super.onPause();
-		m_renderer.pause();
+//		m_renderer.pause();
 	}
 
 	public void onDestroy()
 	{
 		super.onDestroy();
-		m_renderer.destroy();
+//		m_renderer.destroy();
 	}
 
 	static
@@ -49,4 +51,3 @@ public class Main extends Activity
 		System.loadLibrary("tactics");
 	}
 }
-

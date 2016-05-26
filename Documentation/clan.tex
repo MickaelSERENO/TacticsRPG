@@ -7,13 +7,13 @@
 		\node (Hu) at (102:3cm) [] {Humains} edge [<-] (De);
 		\node (BDi) at (155:3cm) [] {Betes divines} edge [<-] (Hu);
 		\node (BDe) at (207:3cm) [] {Betes demoniaques} edge [<-] (BDi);
-		\node (Ai) at (258:3cm) [] {Rapaces} edge [<-] (BDe);
+		\node (Ai) at (258:3cm) [] {Entite neutre} edge [<-] (BDe);
 		\node (Dr) at (309:3cm) [] {Dragons} edge [<-] (Ai);
 		\draw[->] (Dr) -- (Di);
 	\end{tikzpicture}
 \end{center}
 
-\subsection{Les Classes Divins (inverse des secm péchés capitaux)}
+\subsection{Les Classes Divins (inverse des sept péchés capitaux)}
 	\begin{center}
 	\begin{tikzpicture}
 		\node (Se) at (0:3cm) [] {Sérénité};
@@ -41,16 +41,16 @@
 	\end{tikzpicture}
 	\end{center}
 
-\subsection{Les Rapaces}
+\subsection{}
 	\begin{center}
 		\begin{tikzpicture}[->=stealth]
-			\node (Co) at (0:3cm) [] {Chouette};
-			\node (Ai) at (51:3cm) [] {Aigle} edge [<-] (Co);
-			\node (Fa) at (102:3cm) [] {Faucon} edge [<-] (Ai);
-			\node (Se) at (155:3cm) [] {Serpentaire} edge [<-] (Fa);
-			\node (Hi) at (207:3cm) [] {Hibou} edge [<-] (Se);
-			\node (Ch) at (258:3cm) [] {Condor} edge [<-] (Hi);
-			\node (Va) at (309:3cm) [] {Vautour} edge [<-] (Ch);
+			\node (Co) at (0:3cm) [] {Golem};
+			\node (Ai) at (51:3cm) [] {Gargoyle} edge [<-] (Co);
+			\node (Fa) at (102:3cm) [] {Sanguinary beast} edge [<-] (Ai);
+			\node (Se) at (155:3cm) [] {Harpy} edge [<-] (Fa);
+			\node (Hi) at (207:3cm) [] {Reptilian} edge [<-] (Se);
+			\node (Ch) at (258:3cm) [] {Elementary} edge [<-] (Hi);
+			\node (Va) at (309:3cm) [] {Faery} edge [<-] (Ch);
 			\draw[->] (Va) -- (Co);
 		\end{tikzpicture}
 	\end{center}
@@ -72,14 +72,14 @@
 \subsection{Bêtes Divines}
 	\begin{center}
 		\begin{tikzpicture}[->=stealth]
-			\node (Co) at (0:3cm)   [] {Phoenix};
-			\node (Ai) at (51:3cm)  [align=center] {Les Géants\\protecteurs} edge [<-] (Co);
-			\node (Fa) at (102:3cm) [above] {Les êtres élémentaires} edge [<-] (Ai);
+			\node (Co) at (0:3cm)   [] {Flying};
+			\node (Ai) at (51:3cm)  [align=center] {Les Géants} edge [<-] (Co);
+			\node (Fa) at (102:3cm) [above] {Être celeste} edge [<-] (Ai);
 			\node (Se) at (155:3cm) [align=center] {Animaux magiques\\
 									  (licorne, pégase, etc.)} edge [<-] (Fa);
-			\node (Hi) at (207:3cm) [] {Golems} edge [<-] (Se);
-			\node (Ch) at (258:3cm) [below] {Chimères} edge [<-] (Hi);
-			\node (Va) at (309:3cm) [] {Être féériques} edge [<-] (Ch);
+			\node (Hi) at (207:3cm) [] {Plante divine} edge [<-] (Se);
+			\node (Ch) at (258:3cm) [below] {Chimère} edge [<-] (Hi);
+			\node (Va) at (309:3cm) [] {Esprits} edge [<-] (Ch);
 			\draw[->] (Va) -- (Co);
 		\end{tikzpicture}
 	\end{center}
@@ -92,9 +92,9 @@
 			\node (Fa) at (102:3cm) [above] {Gobelins} edge [<-] (Ai);
 			\node (Se) at (155:3cm) [align=center] {Animaux démoniaques\\
 									  (Cérbère, minautore, etc.)} edge [<-] (Fa);
-		    \node (Hi) at (207:3cm) [align=center] {Représentation\\de la peur} edge [<-] (Se);
-			\node (Ch) at (258:3cm) [below] {Gargouilles} edge [<-] (Hi);
-			\node (Va) at (309:3cm) [] {Essences de démons (liquide)} edge [<-] (Ch);
+		    \node (Hi) at (207:3cm) [align=center] {Plante demoniaque} edge [<-] (Se);
+			\node (Ch) at (258:3cm) [below] {Aberration} edge [<-] (Hi);
+			\node (Va) at (309:3cm) [] {Orc} edge [<-] (Ch);
 			\draw[->] (Va) -- (Co);
 		\end{tikzpicture}
 	\end{center}
