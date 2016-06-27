@@ -2,6 +2,8 @@
 #define  UNITSTATS_INC
 
 #include "sqlite3.h"
+#include "stdint.h"
+#include <map>
 
 enum UnitClass
 {
@@ -42,7 +44,7 @@ class UnitStats
 class UnitDatabase
 {
 	public:
-		static const UnitDatabase& getSingleton();
+		static UnitDatabase& getSingleton();
 		void init(const char* path);
 		const std::map<UnitType, const UnitStats>& getUnitStats();
 	private:

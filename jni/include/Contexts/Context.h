@@ -1,18 +1,19 @@
 #ifndef  CONTEXT_INC
 #define  CONTEXT_INC
 
+#include "Updatable.h"
+
 enum ContextID
 {
-	Start, InGame
+	START, IN_GAME
 };
 
 class Game;
 
-class Context
+class Context : public Updatable
 {
 	public:
 		Context(Game* game);
-		virtual void run() = 0;
 	private:
 		Game* m_game;
 };

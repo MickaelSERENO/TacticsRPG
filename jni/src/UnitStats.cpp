@@ -16,7 +16,7 @@ const std::map<UnitType, const UnitStats>& UnitDatabase::getUnitStats()
 	return m_unitStats;
 }
 
-const UnitDatabase& UnitDatabase::getSingleton()
+UnitDatabase& UnitDatabase::getSingleton()
 {
 	return UnitDatabase::m_singleton;
 }
