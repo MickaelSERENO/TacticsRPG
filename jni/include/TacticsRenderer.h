@@ -5,6 +5,10 @@
 #include "Map/TMap.h"
 #include "Graphics/Sprite.h"
 #include "Graphics/Materials/TextureMaterial.h"
+#include "Graphics/Widgets/Menu.h"
+#include "Graphics/Widgets/ItemMenu.h"
+#include "Graphics/Font.h"
+#include "Graphics/Text.h"
 
 class TacticsRenderer : public Renderer
 {

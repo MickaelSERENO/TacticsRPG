@@ -32,11 +32,20 @@ void TacticsRenderer::accelerometerEvent(float x, float y, float z)
 void TacticsRenderer::init()
 {
 	Renderer::init();
-
+/* 
 	File file(JniMadeOf::jenv, JniMadeOf::context, "Resources/Tile.xml", "r");
 	m_mtl = new TextureMaterial();
 	tmap = new TMap(this, file);
 	tmap->setUpdateFocus(false);
 	tmap->scale(glm::vec3(0.01, 0.01, 0.01)*0.5f);
 	tmap->move(glm::vec3(-1.0, -1.0, 0.0));
+
+	UniColorMaterial* material = new UniColorMaterial(Color(1, 1, 1, 1));
+	Font* font = Font::fontFromAssets("DejaVuSansMono.ttf");
+	Text* text = new Text(this, material, font, "Coucou");
+
+	Menu* m = new Menu(this, new Text(NULL, material, font, "Menu !!"));
+	m->addItemMenu(new ItemMenu(NULL, new Text(NULL, material, font, "Item 1")));
+	m->addItemMenu(new ItemMenu(NULL, new Text(NULL, material, font, "Item 2")));
+*/
 }
