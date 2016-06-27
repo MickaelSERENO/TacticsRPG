@@ -17,6 +17,14 @@ class Attack
 		uint32_t m_range;
 };
 
-extern std::map<AttackType, const Attack> m_attackStats;
+class AttackDatabase
+{
+	public:
+		static const AttackDatabase* getSingleton();
+	private:
+		AttackDatabase();
+		~AttackDatabase();
+		std::map<AttackType, const Attack> m_attackStats;
+};
 
 #endif

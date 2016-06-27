@@ -1,6 +1,7 @@
 package com.gaulois94;
 
 import com.gaulois94.TacticsRenderer;
+import com.gaulois94.FileManager;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,9 +19,8 @@ public class Main extends Activity
 
 	public void onCreate(Bundle savedInstanceState)
 	{
-
-		if(!Tool.isFileInData(this, "rpg.db"))
-			Tool.copyAssetToData(this, "rpg.db");
+//		if(!Tool.isFileInData(this, "rpg.db"))
+//			Tool.copyAssetToData(this, "rpg.db");
 
 		m_renderer = new TacticsRenderer(this);
 		setContentView(m_renderer.getSurface());
@@ -53,4 +53,3 @@ public class Main extends Activity
 		System.loadLibrary("tactics");
 	}
 }
-
