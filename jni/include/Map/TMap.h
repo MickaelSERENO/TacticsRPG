@@ -25,7 +25,7 @@ class TMap : public Map
 	private:
 		TextureMaterial m_mtl;
 		std::map<std::string, TileInfo*> m_tileInfo;
-//		PlayertRACe* m_playerTrace;
+//		PlayerTrace* m_playerTrace;
 };
 
 #endif

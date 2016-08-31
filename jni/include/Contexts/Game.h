@@ -8,8 +8,11 @@ class Game : public Updatable
 {
 	public:
 		Game(Updatable* parent);
+		void changeContext(ContextID ce, void* data=NULL);
 	private:
+		InGame m_inGame;
 		Start m_start;
+		Context* m_currentContext=NULL;
 };
 
 #endif

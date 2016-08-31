@@ -5,7 +5,8 @@ import android.content.Context;
 
 public class FileManager
 {
-	public static GAMEDB = "game.db"
+	public static String GAMEDB = "game.db";
+
 	static void copyOnDevice(Context c)
 	{
 		Tool.copyAssetToData(c, GAMEDB);
@@ -13,7 +14,7 @@ public class FileManager
 
 	static void initDB(Context c)
 	{
-		initDB(c.getFilesDir() + "/" + GAMEDB);
+		FileManager.FileManagerInitDB(c.getFilesDir() + "/" + GAMEDB);
 	}
 
 	static native void FileManagerInitDB(String pathDB);

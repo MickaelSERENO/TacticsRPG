@@ -14,7 +14,10 @@ class Context : public Updatable
 {
 	public:
 		Context(Game* game);
+		void onStart(void* data=NULL);
+		void onClose();
 	private:
+		bool m_willResumed=false;
 		Game* m_game;
 };
 
