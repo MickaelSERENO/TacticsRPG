@@ -6,6 +6,11 @@
 #include "Database.h"
 #include <map>
 #include <vector>
+#include "utils.h"
+#include "logger.h"
+#include "Graphics/Animation.h"
+#include "Graphics/PatternAnimation.h"
+#include "Graphics/SelectAnimation.h"
 
 enum UnitClass
 {
@@ -112,39 +117,52 @@ struct UnitStats
 	double   nbAttackStat; /* <!Statistics telling how many I can attack per actions */
 };
 
-struct UnitDynamicSubAnim
+class UnitSubAnim
 {
-	int left;
-	int bottom;
-	int sizeX;
-	int sizeY;
+	public:
+		UnitSubAnim(AnimOrientation orientation);
+		virtual ~UnitSubAnim();
+		virtual Animation* createAnim(Updatable* parent, Material* mtl, const Texture* texture, uint32_t nbFrame) const=0;
+	private:
+		AnimOrientation m_orientation;
+	
 };
 
-struct UnitAnim
+class UnitStaticAnim : public UnitSubAnim
 {
-	int         id;
-	int         unitID;
-	std::string type;
-	std::string name;
+	public:
+		UnitStaticAnim(AnimOrientation orientation, int x, int y, int sizeX, int sizeY, int padX, int padY, int n, int nX);
+		virtual Animation* createAnim(Updatable* parent, Material* mtl, const Texture* texture, uint32_t nbFrame) const;
+	private:
+		int m_x;
+		int m_y;
+		int m_sizeX;
+		int m_sizeY;
+		int m_padX;
+		int m_padY;
+		int m_n;
+		int m_nX;
 };
 
-struct UnitStaticAnim : public UnitAnim
+/*  class UnitDynamicAnim
 {
-	AnimOrientation orientation;
-	int x;
-	int y;
-	int sizeX;
-	int sizeY;
-	int padX;
-	int padY;
-	int n;
-	int nX;
-};
+	//std::vector<UnitDynamicSubAnim> subAnim;
+};*/
 
-struct UnitDynamicAnim : public UnitAnim
+class UnitAnim
 {
-	std::vector<UnitDynamicSubAnim> subAnim;
-}
+	public:
+		UnitAnim(int unitID, const std::string& name);
+		virtual ~UnitAnim();
+		void addAnimation(AnimOrientation orientation, UnitSubAnim* anim, bool toDelete=true);
+		Animation* createAnim(Updatable* parent, Material* mtl, const Texture* texture, uint32_t nbFrame, AnimOrientation orientation);
+	private:
+		std::map<AnimOrientation, UnitSubAnim*> m_anims;
+		std::map<AnimOrientation, bool> m_delete;
+		int m_unitID;
+		std::string m_name;
+
+};
 
 class UnitTree
 {
@@ -160,9 +178,17 @@ class UnitTree
 
 struct ClassDataCallback
 {
-	std::map<UnitType, std::vector<UnitStats>> data;
 	UnitClass uc;
 	Database* db;
+	std::map<UnitType, std::vector<UnitStats>> data;
+};
+
+struct AnimDataCallback
+{
+	UnitAnim** ua;
+	Database* db;
+	int unitID;
+	const std::string* name;
 };
 
 /** \brief Class which provides functions to access some part of the Data
@@ -200,10 +226,22 @@ class UnitDatabase
 
 		static int getChildrenCallback(void* data, int nbColumn, char** argv, char** columnName);
 
+		static int getAnimCallback(void* data, int nbColumn, char** argv, char** columnName);
+
+		static int getSubStaticAnimCallback(void* data, int nbColumn, char** argv, char** columnName);
+
+		~UnitDatabase();
+
 		/** \brief get the information of a whole UnitClass.
 		 * \param uc The UnitClass
 		 * \return an array of all the UnitStats of this UnitClass mapped by UnitType.*/
 		std::map<UnitType, std::vector<UnitStats>> getClassDatabase(UnitClass uc);
+
+		/** \brief Get an Object UnitAnim which can create you a specific animation for an Unit following an orientation
+		 * \param UnitID The ID of the Unit
+		 * \param animName The name of the Animation 
+		 * \return an UnitAnim object that can create Animation */
+		UnitAnim*  getAnimationDatas(int unitID, const std::string& animName);
 
 		/** \brief get the id of the children of one unit represented by its id
 		 * \param id The id of the Unit parent
@@ -212,8 +250,7 @@ class UnitDatabase
 	private:
 		static UnitDatabase* m_singleton;
 		UnitDatabase(Database* db);
-		~UnitDatabase();
-		Database* m_db;
+		Database* m_db=NULL;
 };
 
 #endif
