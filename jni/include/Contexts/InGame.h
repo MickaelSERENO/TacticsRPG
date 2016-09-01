@@ -2,6 +2,7 @@
 #define  INGAME__INC
 
 #include "Contexts/Context.h"
+#include "Map/TMap.h"
 
 class InGame : public Context
 {
@@ -10,7 +11,7 @@ class InGame : public Context
 		void onStart(void* data=NULL);
 		void onClose();
 	private:
-		Map* m_currentMap;
+		TMap* m_currentMap;
 };
 
 #endif

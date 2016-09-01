@@ -46,5 +46,12 @@ Start::~Start()
 void Start::optionSelected(Active* item, void* option)
 {
 	int selected = (int)option;
-	m_game->changeContext(IN_GAME, new InGame_OnStart{.mapFile = "map.xml"});
+	//m_game->changeContext(IN_GAME, new InGame_OnStart{.mapFile = "map.xml"});
+	
+	UnitTree ut(HUMAN);
+	std::vector<const UnitStats*> v = ut.getChildren("Solitary warrior");
+	for(const UnitStats* us : v)
+		LOG_ERROR("%s is a child of Soldier", us->name.c_str());
+
+	
 }

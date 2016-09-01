@@ -16,7 +16,7 @@ class Context : public Updatable
 		Context(Game* game);
 		void onStart(void* data=NULL);
 		void onClose();
-	private:
+	protected:
 		bool m_willResumed=false;
 		Game* m_game;
 };

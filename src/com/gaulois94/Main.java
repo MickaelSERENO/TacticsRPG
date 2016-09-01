@@ -19,12 +19,15 @@ public class Main extends Activity
 
 	public void onCreate(Bundle savedInstanceState)
 	{
-		if(!Tool.isFileInData(this, "rpg.db"))
-			Tool.copyAssetToData(this, "rpg.db");
-
+		super.onCreate(savedInstanceState);
 		m_renderer = new TacticsRenderer(this);
 		setContentView(m_renderer.getSurface());
-		super.onCreate(savedInstanceState);
+		if(!Tool.isFileInData(this, "game.db"))
+		{
+			FileManager.copyOnDevice(this);
+		}
+		FileManager.initDB(this);
+
 	}
 
 	public void onResume()

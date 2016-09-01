@@ -10,16 +10,15 @@ void InGame::onStart(void* data)
 	{
 		InGame_OnStart* d = (InGame_OnStart*)(data);
 		File file(d->mapFile.c_str(), "r");
-		m_map = new Map(this);
-		m_map.parse(file);
+		m_currentMap = new TMap(this, file);
 	}
 }
 
 void InGame::onClose()
 {
-	if(!m_resume)
+	if(!m_willResumed)
 	{
-		delete m_map;
-		m_map = NULL;
+		delete m_currentMap;
+		m_currentMap = NULL;
 	}
 }

@@ -11,6 +11,7 @@
 #include "Contexts/Context.h"
 #include "Contexts/SharedData.h"
 #include "GameResources.h"
+#include "UnitStats.h"
 
 enum StartOption
 {
