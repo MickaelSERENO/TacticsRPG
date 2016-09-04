@@ -2,6 +2,7 @@
 #define  UNITSTATS_INC
 
 #include "sqlite3.h"
+#include "logger.h"
 #include "stdint.h"
 #include "Database.h"
 #include <map>
@@ -11,6 +12,7 @@
 #include "Graphics/Animation.h"
 #include "Graphics/PatternAnimation.h"
 #include "Graphics/SelectAnimation.h"
+#include "Orientation.h"
 
 enum UnitClass
 {
@@ -76,14 +78,6 @@ enum UnitType
 	WRATH
 };
 
-enum AnimOrientation
-{
-	LEFT,
-	TOP,
-	RIGHT,
-	BOTTOM
-};
-
 struct TypeStats
 {
 	UnitType unitType;
@@ -97,7 +91,6 @@ struct UnitStats
 
 	std::string name; /* <!The name of the Unit */
 	std::string description; /* <!The description of the Unit */
-	std::string modelPath; /* <!The path of the texture of the Unit */
 
 	int      id; /* <! The id of the Unit */
 	uint32_t occupation; /* <! The occupation of a building */
@@ -120,18 +113,18 @@ struct UnitStats
 class UnitSubAnim
 {
 	public:
-		UnitSubAnim(AnimOrientation orientation);
+		UnitSubAnim(Orientation orientation);
 		virtual ~UnitSubAnim();
 		virtual Animation* createAnim(Updatable* parent, Material* mtl, const Texture* texture, uint32_t nbFrame) const=0;
 	private:
-		AnimOrientation m_orientation;
+		Orientation m_orientation;
 	
 };
 
 class UnitStaticAnim : public UnitSubAnim
 {
 	public:
-		UnitStaticAnim(AnimOrientation orientation, int x, int y, int sizeX, int sizeY, int padX, int padY, int n, int nX);
+		UnitStaticAnim(Orientation orientation, int x, int y, int sizeX, int sizeY, int padX, int padY, int n, int nX);
 		virtual Animation* createAnim(Updatable* parent, Material* mtl, const Texture* texture, uint32_t nbFrame) const;
 	private:
 		int m_x;
@@ -152,24 +145,27 @@ class UnitStaticAnim : public UnitSubAnim
 class UnitAnim
 {
 	public:
-		UnitAnim(int unitID, const std::string& name);
+		UnitAnim(int unitID, const std::string& name, const std::string& modelPath);
 		virtual ~UnitAnim();
-		void addAnimation(AnimOrientation orientation, UnitSubAnim* anim, bool toDelete=true);
-		Animation* createAnim(Updatable* parent, Material* mtl, const Texture* texture, uint32_t nbFrame, AnimOrientation orientation);
+		void addAnimation(Orientation orientation, UnitSubAnim* anim, bool toDelete=true);
+		Animation* createAnim(Updatable* parent, Material* mtl, const Texture* texture, uint32_t nbFrame, Orientation orientation);
+		const std::string& getModelPath() const;
 	private:
-		std::map<AnimOrientation, UnitSubAnim*> m_anims;
-		std::map<AnimOrientation, bool> m_delete;
+		std::map<Orientation, UnitSubAnim*> m_anims;
+		std::map<Orientation, bool> m_delete;
 		int m_unitID;
 		std::string m_name;
-
+		std::string m_modelPath; /* <!The path of the texture of the Unit */
 };
 
 class UnitTree
 {
 	public:
 		UnitTree(UnitClass uc);
+		~UnitTree();
 		std::vector<const UnitStats*> getChildren(const std::string& name) const;
 		std::vector<const UnitStats*> getChildren(int id) const;
+		std::vector<const UnitStats*> getFirstParents() const;
 	private:
 		UnitClass m_uc;
 		std::map<UnitType, std::vector<UnitStats>> m_data;
@@ -185,7 +181,7 @@ struct ClassDataCallback
 
 struct AnimDataCallback
 {
-	UnitAnim** ua;
+	UnitAnim* ua;
 	Database* db;
 	int unitID;
 	const std::string* name;

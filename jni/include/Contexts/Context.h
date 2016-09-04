@@ -14,8 +14,8 @@ class Context : public Updatable
 {
 	public:
 		Context(Game* game);
-		void onStart(void* data=NULL);
-		void onClose();
+		virtual void onStart(void* data=NULL);
+		virtual void onClose();
 	protected:
 		bool m_willResumed=false;
 		Game* m_game;

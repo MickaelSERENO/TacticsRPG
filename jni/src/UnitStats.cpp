@@ -370,7 +370,8 @@ std::map<UnitType, std::vector<UnitStats>> UnitDatabase::getClassDatabase(UnitCl
 	char* errMsg;
 
 	//Execute "SELECT name FROM Type WHERE className = "UnitClass""
-	sqlite3_exec(m_db->getDatabase(), ("SELECT name FROM Type WHERE className = \"" + getClassName(uc) + "\"").c_str(), UnitDatabase::getClassDatabaseCallback, &cdc, &errMsg);
+	std::string request = "SELECT name FROM Type WHERE className = \"" + getClassName(uc) + "\"";
+	sqlite3_exec(m_db->getDatabase(), request.c_str(), UnitDatabase::getClassDatabaseCallback, &cdc, &errMsg);
 
 	sqlite3_free(errMsg);
 
@@ -386,7 +387,8 @@ int UnitDatabase::getClassDatabaseCallback(void* data, int nbColumn, char** argv
 	for(int i=0; i < nbColumn; i++)
 	{
 		classData->data.insert(std::pair<UnitType, std::vector<UnitStats>>(getUnitType(argv[i]), std::vector<UnitStats>()));
-		sqlite3_exec(classData->db->getDatabase(), ("SELECT * FROM Unit WHERE typeName = \"" + std::string(argv[i]) + "\"").c_str(), UnitDatabase::getUnitDataCallback, &(classData->data.find(getUnitType(argv[i]))->second), &errMsg);
+		std::string request = "SELECT * FROM Unit WHERE typeName = \"" + std::string(argv[i]) + "\"";
+		sqlite3_exec(classData->db->getDatabase(), request.c_str(), UnitDatabase::getUnitDataCallback, &(classData->data.find(getUnitType(argv[i]))->second), &errMsg);
 		sqlite3_free(errMsg);
 	}
 
@@ -422,9 +424,6 @@ int UnitDatabase::getUnitDataCallback(void* data, int nbColumn, char** argv, cha
 
 		else if(!strcmp(columnName[i], "occupation"))
 			us.occupation = atoi(argv[i]);
-
-		else if(!strcmp(columnName[i], "modelPath") && argv[i] != NULL)
-			us.modelPath = std::string(argv[i]);
 
 		else if(!strcmp(columnName[i], "pv"))
 			us.life = atoi(argv[i]);
@@ -463,14 +462,13 @@ int UnitDatabase::getUnitDataCallback(void* data, int nbColumn, char** argv, cha
 
 std::vector<int> UnitDatabase::getChildrenID(int id)
 {
-	char* request = (char*)malloc(10*sizeof(char));
-	sprintf(request, "%d", id);
+	char request[512];
+	sprintf(request, "SELECT child FROM UnitTree WHERE parent = %d", id);
 	char* errMsg=NULL;
 	std::vector<int> array;
 
-	sqlite3_exec(m_db->getDatabase(), ("SELECT child FROM UnitTree WHERE parent = \"" + std::string(request) + "\"").c_str(), UnitDatabase::getChildrenCallback, &array, &errMsg);
+	sqlite3_exec(m_db->getDatabase(), request, UnitDatabase::getChildrenCallback, &array, &errMsg);
 	sqlite3_free(errMsg);
-	free(request);
 
 	return array;	
 }
@@ -484,52 +482,53 @@ int UnitDatabase::getChildrenCallback(void* data, int nbColumn, char** argv, cha
 
 UnitAnim* UnitDatabase::getAnimationDatas(int unitID, const std::string& animName)
 {
-	char* request = (char*)malloc(10*sizeof(char));
-	sprintf(request, "%d", unitID);
+	char request[512];
+	sprintf(request, "SELECT id, type, modelPath FROM UnitAnim WHERE unitID = %d AND name = \"%s\"", unitID, animName.c_str());
 
 	char* errMsg;
-	UnitAnim* ua = NULL;
-	AnimDataCallback data{.ua = &ua, .db = m_db, .unitID = unitID, .name = &animName};
+	AnimDataCallback data{.ua=NULL, .db = m_db, .unitID = unitID, .name = &animName};
 
-	//SELECT * FROM UnitAnim WHERE unitID = unitID AND name = animName
-	sqlite3_exec(m_db->getDatabase(), ("SELECT id, type FROM UnitAnim WHERE unitID = \"" + std::string(request) + "\" AND name = \"" + animName + "\"").c_str(), UnitDatabase::getAnimCallback, &data, &errMsg);
-	free(request);
+	sqlite3_exec(m_db->getDatabase(), request, UnitDatabase::getAnimCallback, &data, &errMsg);
 	sqlite3_free(errMsg);
 
-	return ua;
+	return data.ua;
 }
 
 int UnitDatabase::getAnimCallback(void* data, int nbColumn, char** argv, char** columnName)
 {
-	AnimDataCallback* animData = (AnimDataCallback*)animData;
-	*(animData->ua) = new UnitAnim(animData->unitID, *(animData->name));
+	AnimDataCallback* animData = (AnimDataCallback*)(data);
 
-	int animID;
+	const char* animID=NULL;
 	const char* type=NULL;
+	const char* modelPath=NULL;
 
 	for(int i=0; i < nbColumn; i++)
 	{
-		if(!strcmp(columnName[i], "animID"))
-			animID = atoi(argv[i]);
+		if(!strcmp(columnName[i], "id"))
+			animID = argv[i];
 
 		else if(!strcmp(columnName[i], "type"))
 		{
-			if(argv[i])
-				type = argv[i];
+			type = argv[i];
+		}
+
+		else if(!strcmp(columnName[i], "modelPath"))
+		{
+			modelPath = argv[i];
+			LOG_ERROR("MODEL PATH %s", argv[i]);
 		}
 	}
 
 
-	if(type && !strcmp(type, "Static"))
+	if(type && modelPath && !strcmp(type, "Static"))
 	{
-		char* request = (char*)malloc(10*sizeof(char));
-		sprintf(request, "%d", animID);
+		animData->ua= new UnitAnim(animData->unitID, *(animData->name), std::string(modelPath));
 		char* errMsg;
 
-		sqlite3_exec(animData->db->getDatabase(), ("SELECT * UnitStaticAnim WHERE unitAnimID = \"" + std::string(request) + "\"").c_str(),
+		std::string request = "SELECT * FROM UnitStaticAnim WHERE unitAnimID = " + std::string(animID) + "";
+		sqlite3_exec(animData->db->getDatabase(), request.c_str(),
 					 UnitDatabase::getSubStaticAnimCallback, data, &errMsg);
 
-		free(request);
 		sqlite3_free(errMsg);
 	}
 
@@ -541,7 +540,7 @@ int UnitDatabase::getSubStaticAnimCallback(void* data, int nbColumn, char** argv
 	AnimDataCallback* animData = (AnimDataCallback*)(data);
 
 	int x, y, padX, padY, sizeX, sizeY, nX, n;
-	AnimOrientation orientation;
+	Orientation orientation;
 
 	for(int i=0; i < nbColumn; i++)
 	{
@@ -585,8 +584,8 @@ int UnitDatabase::getSubStaticAnimCallback(void* data, int nbColumn, char** argv
 			nX = atoi(argv[i]);
 	}
 
-	if((*animData->ua))
-		(*(animData->ua))->addAnimation(orientation, new UnitStaticAnim(orientation, x, y, sizeX, sizeY,
+	if(animData->ua)
+		animData->ua->addAnimation(orientation, new UnitStaticAnim(orientation, x, y, sizeX, sizeY,
 																	   padX, padY, n, nX));
 
 	return 0;
@@ -603,6 +602,11 @@ UnitTree::UnitTree(UnitClass uc) : m_uc(uc)
 	for(auto it : m_data)
 		for(uint32_t i=0; i < it.second.size(); i++)
 			m_childTree.insert(std::pair<int, std::vector<int>>(it.second[i].id, UnitDatabase::getSingleton()->getChildrenID(it.second[i].id)));
+}
+
+UnitTree::~UnitTree()
+{
+	LOG_ERROR("DELETED");
 }
 
 std::vector<const UnitStats*> UnitTree::getChildren(const std::string& name) const
@@ -628,11 +632,35 @@ std::vector<const UnitStats*> UnitTree::getChildren(int id) const
 	return array;
 }
 
+std::vector<const UnitStats*> UnitTree::getFirstParents() const
+{
+	std::vector<const UnitStats*> array;
+
+	for(std::map<UnitType, std::vector<UnitStats>>::const_iterator it = m_data.begin(); it != m_data.end(); it++)
+		for(uint32_t i=0; i < it->second.size(); i++)
+		{
+			bool exist=false;
+			for(auto child : m_childTree)
+				for(uint32_t j=0; j < child.second.size(); j++)
+					if(child.second[j] == it->second[i].id)
+					{
+						exist = true;
+						break;
+					}
+
+			if(!exist)
+				array.push_back(&(it->second[i]));
+		}
+	if(array.size() == 0)
+		LOG_ERROR("NO PARENTS FOUND");
+	return array;
+}
+
 
 /* ***************** END UNITTREE FUNCTIONS ******************
  * **************** START UNITANIM FUNCTIONS ***************** */
 
-UnitAnim::UnitAnim(int unitID, const std::string& name) : m_unitID(unitID), m_name(name)
+UnitAnim::UnitAnim(int unitID, const std::string& name, const std::string& modelPath) : m_unitID(unitID), m_name(name), m_modelPath(modelPath)
 {
 }
 
@@ -643,26 +671,32 @@ UnitAnim::~UnitAnim()
 			delete it.second;
 }
 
-void UnitAnim::addAnimation(AnimOrientation orientation, UnitSubAnim* anim, bool toDelete)
+void UnitAnim::addAnimation(Orientation orientation, UnitSubAnim* anim, bool toDelete)
 {
-	m_anims.insert(std::pair<AnimOrientation, UnitSubAnim*>(orientation, anim));
-	m_delete.insert(std::pair<AnimOrientation, bool>(orientation, toDelete));
+	m_anims.insert(std::pair<Orientation, UnitSubAnim*>(orientation, anim));
+	m_delete.insert(std::pair<Orientation, bool>(orientation, toDelete));
 }
 
-Animation* UnitAnim::createAnim(Updatable* parent, Material* mtl, const Texture* texture, uint32_t nbFrame, AnimOrientation orientation)
+Animation* UnitAnim::createAnim(Updatable* parent, Material* mtl, const Texture* texture, uint32_t nbFrame, Orientation orientation)
 {
 	return m_anims[orientation]->createAnim(parent, mtl, texture, nbFrame);
 }
 
-UnitSubAnim::UnitSubAnim(AnimOrientation orientation) : m_orientation(orientation){}
+const std::string& UnitAnim::getModelPath() const
+{
+	return m_modelPath;
+}
+
+UnitSubAnim::UnitSubAnim(Orientation orientation) : m_orientation(orientation){}
 
 UnitSubAnim::~UnitSubAnim(){}
 
-UnitStaticAnim::UnitStaticAnim(AnimOrientation orientation, int x, int y, int sizeX, int sizeY, 
+UnitStaticAnim::UnitStaticAnim(Orientation orientation, int x, int y, int sizeX, int sizeY, 
 							   int padX, int padY, int n, int nX) : 
 										UnitSubAnim(orientation), m_x(x), m_y(y), m_sizeX(sizeX), 
 										m_sizeY(sizeY), m_padX(padX), m_padY(padY), m_n(n), m_nX(nX)
-{}
+{
+}
 
 Animation* UnitStaticAnim::createAnim(Updatable* parent, Material* mtl, const Texture* texture, uint32_t nbFrame) const
 {

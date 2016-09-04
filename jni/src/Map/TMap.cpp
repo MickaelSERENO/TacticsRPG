@@ -1,14 +1,11 @@
 #include "Map/TMap.h"
 
-TMap::TMap(Updatable* parent, File& file) : Map(parent), m_mtl()//, m_playerTrace(NULL)
+TMap::TMap(Updatable* parent, File& file) : Map(parent), m_mtl()
 {
 	TileInfo* info = new TileInfo();
 	info->cost = 1;
 	m_tileInfo.insert(std::pair<std::string, TileInfo*>("grass", info));
 	parse(file);
-//	m_playerTrace = new PlayerTrace(this, m_nbCasesX, m_nbCasesY, m_caseSizeX, m_caseSizeY);
-//	m_traces.push_back(m_playerTrace);
-//	addTransformable(m_playerTrace);
 }
 
 TMap::~TMap()
@@ -20,7 +17,6 @@ TMap::~TMap()
 
 createStaticTilePtr TMap::getStaticTileFunction(const char* name, const char* type) const
 {
-	LOG_ERROR("GET STATIC TILE FUNCTION");
 	return staticTileFactory<DefaultTile>;
 }
 

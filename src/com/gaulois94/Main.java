@@ -6,8 +6,12 @@ import com.gaulois94.FileManager;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.widget.FrameLayout;
 
 import android.util.Log;
+import android.view.Window;
+import android.graphics.Point;
+import com.gaulois94.R;
 
 public class Main extends Activity
 {
@@ -20,14 +24,14 @@ public class Main extends Activity
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+//		if(!Tool.isFileInData(this, "game.db"))
+//		{
+			FileManager.copyOnDevice(this);
+//		}
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		FileManager.initDB(this);
 		m_renderer = new TacticsRenderer(this);
 		setContentView(m_renderer.getSurface());
-		if(!Tool.isFileInData(this, "game.db"))
-		{
-			FileManager.copyOnDevice(this);
-		}
-		FileManager.initDB(this);
-
 	}
 
 	public void onResume()

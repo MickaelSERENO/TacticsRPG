@@ -14,9 +14,16 @@ Start::Start(Game* game) : Context(game), m_menuBackgroundMaterial(Color::BLUE),
 	m_optionItem     = new ItemMenu(NULL, m_optionItemText);
 	m_quitItem       = new ItemMenu(NULL, m_quitItemText);
 
-	ActiveListener startListener(Start::optionSelected, (void*)START_IN_GAME);
-	ActiveListener optionListener(Start::optionSelected, (void*)START_OPTION);
-	ActiveListener quitListener(Start::optionSelected, (void*)START_QUIT);
+	m_optionCallback.option = START_OPTION;
+	m_startCallback.option  = START_IN_GAME;
+	m_quitCallback.option   = START_QUIT;
+	m_optionCallback.self = this;
+	m_startCallback.self = this;
+	m_quitCallback.self = this;
+
+	ActiveListener startListener(Start::optionSelected, (void*)&m_startCallback);
+	ActiveListener optionListener(Start::optionSelected, (void*)&m_optionCallback);
+	ActiveListener quitListener(Start::optionSelected, (void*)&m_quitCallback);
 
 	m_startItem->setActiveListener(startListener);
 	m_optionItem->setActiveListener(optionListener);
@@ -45,13 +52,7 @@ Start::~Start()
 //The Listener handler
 void Start::optionSelected(Active* item, void* option)
 {
-	int selected = (int)option;
-	//m_game->changeContext(IN_GAME, new InGame_OnStart{.mapFile = "map.xml"});
-	
-	UnitTree ut(HUMAN);
-	std::vector<const UnitStats*> v = ut.getChildren("Solitary warrior");
-	for(const UnitStats* us : v)
-		LOG_ERROR("%s is a child of Soldier", us->name.c_str());
-
-	
+	OptionCallback* oc = (OptionCallback*)(option);
+	if(oc->option == START_IN_GAME)
+		oc->self->m_game->changeContext(IN_GAME, new InGame_OnStart{.mapFile = "Maps/map.xml"});
 }

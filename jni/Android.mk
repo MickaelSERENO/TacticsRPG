@@ -36,7 +36,7 @@ LOCAL_SRC_FILES := src/TacticsRenderer.cpp src/nativeTacticsRenderer.cpp
 LOCAL_SRC_FILES += src/Map/TMap.cpp
 LOCAL_SRC_FILES += src/nativeFileManager.cpp src/Database.cpp src/UnitStats.cpp
 LOCAL_SRC_FILES += src/Contexts/Context.cpp src/Contexts/Game.cpp src/Contexts/Start.cpp src/Contexts/InGame.cpp
-LOCAL_SRC_FILES += src/GameResources.cpp
+LOCAL_SRC_FILES += src/Path.cpp src/GameResources.cpp src/GameStats.cpp src/Player.cpp src/Units/Unit.cpp src/Map/TreePathUpdatable.cpp src/Map/PathArrow.cpp
 
 LOCAL_LDLIBS    += -llog -landroid -lEGL -lGLESv2 -ljnigraphics -latomic
 

@@ -1,22 +1,27 @@
 #include "Player.h"
 
-Player::Player(Updatable* parent, Map* currentMap)
-{}
-
-void Player::addUnit(Unit* unit, const Vector2i& pos, Direction defaultDirection)
+Player::Player(Updatable* parent, UnitClass uc, uint32_t id) : Updatable(parent), m_uc(uc), m_ut(uc), m_id(id)
 {
-	UnitEntity* entity = new UnitEntity();
-	entity->unit       = unit;
-	entity->treePath   = new TreePath(unit->getCost());
-	entity->treePath->update(*m_currentMap, pos, Vector2i(unitCost, unitCost));
-	m_units.push_back(entity);
+	
 }
 
-void Player::moveUnitToTarget(uint32_t id, const Vector2i& relativeTarget)
+void Player::onUpdate(Render& render)
 {
-	UnitEntity* unitEntity = m_units[id];
-	uint32_t unitCost = unitEntity->unit->getPath();
+//	m_ut.getFirstParents();
+}
 
-	//Update the TreePath
-	unitEntity->treePath->update(*m_currentMap, unitEntity->unit->getCase(), Vector2i(unitCost, unitCost));
+Player::~Player()
+{
+	for(Unit* u : m_units)
+		delete u;
+}
+
+void Player::addUnit(const UnitStats* us, const Vector2i& pos, Orientation defaultDirection)
+{
+	m_units.push_back(new Unit(this, pos, m_id, us));
+}
+
+UnitTree& Player::getUnitTree()
+{
+	return m_ut;
 }

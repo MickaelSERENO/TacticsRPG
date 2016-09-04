@@ -18,8 +18,15 @@ enum StartOption
 	START_OPTION, START_IN_GAME, START_QUIT
 };
 
+
 class Start : public Context
 {
+	struct OptionCallback
+	{
+		int option;
+		Start* self;
+	};
+
 	public:
 		Start(Game* game);
 		~Start();
@@ -39,6 +46,10 @@ class Start : public Context
 		Text*            m_startItemText;
 		Text*            m_optionItemText;
 		Text*            m_quitItemText;
+
+		OptionCallback   m_optionCallback;
+		OptionCallback   m_startCallback;
+		OptionCallback   m_quitCallback;
 };
 
 #endif

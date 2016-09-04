@@ -1,71 +1,52 @@
 #include "Units/Unit.h"
 
-Unit::Unit(Updatable* parent, const Vector2i& casePos, uint32_t playerID, uint32_t cost) : UnitEntity(), Tile(parent, NULL, Rectangle3f(), (void*)this), m_casePos(casePos), m_playerID(playerID), m_movableCost(cost), m_treePath(NULL), m_staticAnim(NULL), m_moveAnim(NULL), m_currentAction(ANIM_MOVING)
-{
-	m_cost = -1;
-}
+Unit* Unit::currentSelected = NULL;
 
-void Unit::loadMoveAnim(Animation** anim)
+Unit::Unit(Updatable* parent, const Vector2i& casePos, uint32_t playerID, const UnitStats* us) : Updatable(parent), m_casePos(casePos), m_playerID(playerID), m_targetCase(-1, -1), m_pv(us->life), m_mp(us->mana), m_unitStats(us)
 {
-	//Add the forth basic animation in movements
-	for(uint32_t i=0; i < N_DIRECTION; i++)
-	{
-		m_moveAnim[i] = anim[i];
-		if(animation[i])
-		{
-			addChild(animation[i]);
-			animation[i]->setCanDraw(false);
-			animation[i]->setCanUpdate(false);
-		}
-	}
-}
+	UnitAnim* ua  = UnitDatabase::getSingleton()->getAnimationDatas(us->id, "REMAIN");
+	m_animation   = ua->createAnim(this, &m_animMaterial, getTexture(ua->getModelPath()), 2, BOTTOM);
 
-void Unit::loadStaticAnim(Anim** anim)
-{
-	//Add the forth basic animation in movements
-	for(uint32_t i=0; i < N_DIRECTION; i++)
-	{
-		m_staticAnim[i] = anim;
-		if(anim[i])
-		{
-			addChild(anim[i]);
-			anim[i]->setCanDraw(false);
-			anim[i]->setCanUpdate(false);
-		}
-	}
+	m_animation->rotate(1.57f, glm::vec3(0, 0, -1), glm::vec3(0.5f, 0.5f, 0.0), true);
+	m_animation->setPosition(glm::vec3(-TILE_PER_ROW/2.0f + casePos.x,
+									   (TILE_PER_ROW/2.0f*height/width) - casePos.y-1, 1.0f));
+	m_animation->setFocusCallback(Unit::animationCallback, this);
 }
 
 void Unit::onUpdate(Render& render)
 {
-	if(m_isMoving)
+	if(!m_endAnimation)
 	{
 				
 	}
 }
 
-void Unit::moveToTarget(TreePath* treePath, const Vector2i& targetCase)
-{
-	m_currentAction = ANIM_MOVING;
-	m_targetCase  = targetCase;
-	m_treePath    = treePath;
-}
+void Unit::attack(Unit& enemy, AttackType type)
+{}
 
 const Vector2i& Unit::getCasePos() const
 {
 	return m_casePos;
 }
 
-uint32_t Unit::getMovable() const
+bool Unit::isAnimated() const
 {
-	return m_movableCost;
-}
-
-bool Unit::isMoving() const
-{
-	return m_isMoving;
+	return m_endAnimation;
 }
 
 uint32_t Unit::getPlayerID() const
 {
 	return m_playerID;
+}
+
+const UnitStats* Unit::getUnitStats() const
+{
+	return m_unitStats;
+}
+
+void Unit::animationCallback(Updatable* anim, void* data)
+{
+	Unit* self = (Unit*)data;
+	LOG_ERROR("ANIMATION CALLBACK %d", self->m_unitStats->movableCost);
+	Unit::currentSelected = (Unit*)data;
 }

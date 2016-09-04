@@ -2,29 +2,33 @@
 #define  PATH_INC
 
 #include "Graphics/Vector2.h"
-#include "Map.h"
+#include "GameStats.h"
 
 struct Path
 {
 	public:
-		uint32_t cost;
+		int32_t cost;
 		Vector2i caseBefore;
 };
 
 class TreePath
 {
 	public:
-		TreePath(uint32_t cost);
+		TreePath(const Vector2i& unitPos, int cost);
+		TreePath(const TreePath& copy);
+		TreePath& operator=(const TreePath& copy);
 		~TreePath();
 
-		//Update the TreePath. Create and init the m_path correctly
-		void update(const Map& map, const Vector2i& elemPos, const Vector2i& relPos, const Vector2i& beforePos = Vector2i(), uint32_t currentCost=0);
-		uint32_t getCost() const;
+		void generate(GameStats& gs);
+		int getCost() const;
+		Path** getPaths();
+		const Vector2i& getUnitPos() const;
 	private:
-		uint32_t m_cost;
-		Path** m_paths;
+		void recursiveGenerate(GameStats& gs, const Vector2i& relPos, const Vector2i& beforePos = Vector2i(), int currentCost=0, bool isFirst=true);
+		Vector2i m_unitPos;
+		int m_cost;
+		Path** m_paths=NULL;
 };
 
-void determineTreePath(const Map& map, const Vector2i& elemPos, const Vector2i& relPos, Path** treePath, uint32_t costInit, const Vector2i& beforePos=Vector2i(), uint32_t currentCost=0);
 
 #endif

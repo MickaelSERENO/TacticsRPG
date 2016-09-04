@@ -13,6 +13,7 @@ class TacticsRenderer : public Renderer
 		void onFocus(uint32_t pID, Render& render);
 		void accelerometerEvent(float x, float y, float z);
 		void init();
+		void setViewport(int width, int height);
 	private:
 		Game* m_game = NULL;
 };

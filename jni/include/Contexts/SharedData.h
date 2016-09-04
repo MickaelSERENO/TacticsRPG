@@ -4,6 +4,7 @@
 struct InGame_OnStart
 {
 	std::string mapFile;
+	uint32_t nbPlayers;
 };
 
 #endif

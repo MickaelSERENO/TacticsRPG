@@ -22,3 +22,10 @@ void TacticsRenderer::init()
 	initFontResources();
 	m_game = new Game(this);
 }
+
+void TacticsRenderer::setViewport(int w, int h)
+{
+	Renderer::setViewport(w, h);
+	width  = w;
+	height = h;
+}
